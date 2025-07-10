@@ -13,12 +13,4 @@ export default class TechnicalInfo {
     this.groupName = '';
     this.skills = [];
   }
-
-  static fromPrototype(prototype: TechnicalInfo): TechnicalInfo {
-    const created = new TechnicalInfo();
-    created.id = prototype.id;
-    created.groupName = prototype.groupName;
-    created.skills = prototype.skills; // Shallow cloning
-    return created;
-  }
 }

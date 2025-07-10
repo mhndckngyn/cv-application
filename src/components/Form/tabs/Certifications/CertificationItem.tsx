@@ -1,55 +1,47 @@
 import type { CertificationInfo } from '@/classes';
 import { updateFromPrototype } from '@/utils';
+import type { Field } from '../Field';
 
 export default function CertificationItem(props: Props) {
   const { item, saveItem, deleteItem } = props;
 
   const updateItem = updateFromPrototype(item);
 
-  const handleUpdateName = (newValue: string) => {
-    saveItem(updateItem('name', newValue));
-  };
-
-  const handleUpdateIssuer = (newValue: string) => {
-    saveItem(updateItem('issuer', newValue));
-  };
-
-  const handleUpdateDate = (newValue: string) => {
-    saveItem(updateItem('date', newValue));
-  };
+  const fields: Field<CertificationInfo>[] = [
+    {
+      label: 'Certification',
+      name: 'name',
+      type: 'text',
+      attribute: 'name',
+    },
+    {
+      label: 'Issuing organization',
+      name: 'issuer',
+      type: 'text',
+      attribute: 'issuer',
+    },
+    {
+      label: 'Issued on',
+      name: 'date',
+      type: 'date',
+      attribute: 'date',
+    },
+  ];
 
   return (
     <li>
       <button onClick={() => deleteItem(item.id)}>Delete certification</button>
-      <div>
-        <label htmlFor={`${item.id}-name`}>Certification</label>
-        <input
-          type='text'
-          id={`${item.id}-name`}
-          value={item.name}
-          onChange={(event) => handleUpdateName(event.target.value)}
-        />
-      </div>
-
-      <div>
-        <label htmlFor={`${item.id}-issuer`}>Issuing organization</label>
-        <input
-          type='text'
-          id={`${item.id}-issuer`}
-          value={item.issuer}
-          onChange={(event) => handleUpdateIssuer(event.target.value)}
-        />
-      </div>
-
-      <div>
-        <label htmlFor={`${item.id}-date`}>Issued on</label>
-        <input
-          type='date'
-          id={`${item.id}-date`}
-          value={item.date}
-          onChange={(event) => handleUpdateDate(event.target.value)}
-        />
-      </div>
+      {fields.map(({ label, name, type, attribute }) => (
+        <div key={name}>
+          <label htmlFor={`${item.id}-${name}`}>{label}</label>
+          <input
+            type={type}
+            id={`${item.id}-${name}`}
+            value={item[attribute]}
+            onChange={(e) => saveItem(updateItem(attribute, e.target.value))}
+          />
+        </div>
+      ))}
     </li>
   );
 }

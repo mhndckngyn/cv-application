@@ -1,28 +1,13 @@
 import { ProjectInfo } from '@/classes';
 import { generateId, updateFromPrototype } from '@/utils';
 import { useState } from 'react';
+import type { Field } from '../Field';
 
 export default function ProjectItem(props: Props) {
   const { item, saveItem, deleteItem } = props;
   const [descInput, setDescInput] = useState('');
 
   const updateItem = updateFromPrototype(item);
-
-  const handleUpdateName = (newName: string) => {
-    saveItem(updateItem('projectName', newName));
-  };
-
-  const handleUpdatePreview = (value: string) => {
-    saveItem(updateItem('preview', value));
-  };
-
-  const handleUpdateStartDate = (newDate: string) => {
-    saveItem(updateItem('startDate', newDate));
-  };
-
-  const handleUpdateEndDate = (newDate: string) => {
-    saveItem(updateItem('endDate', newDate));
-  };
 
   const handleAddDescription = () => {
     if (!descInput) return;
@@ -48,44 +33,47 @@ export default function ProjectItem(props: Props) {
     saveItem(updateItem('descriptions', deleted));
   };
 
+  const fields: Field<Omit<ProjectInfo, 'descriptions'>>[] = [
+    {
+      label: 'Project name',
+      name: 'projectName',
+      type: 'text',
+      attribute: 'projectName',
+    },
+    {
+      label: 'Link to Preview',
+      name: 'preview',
+      type: 'text',
+      attribute: 'preview',
+    },
+    {
+      label: 'Start date',
+      name: 'startDate',
+      type: 'date',
+      attribute: 'startDate',
+    },
+    {
+      label: 'End date',
+      name: 'endDate',
+      type: 'date',
+      attribute: 'endDate',
+    },
+  ];
+
   return (
     <li>
       <button onClick={() => deleteItem(item.id)}>Delete project</button>
-      <div>
-        <label htmlFor={`${item.id}-projectName`}>Project name</label>
-        <input
-          id={`${item.id}-projectName`}
-          value={item.projectName}
-          onChange={(event) => handleUpdateName(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor={`${item.id}-preview`}>Link to Preview</label>
-        <input
-          type='text'
-          id={`${item.id}-preview`}
-          value={item.preview}
-          onChange={(event) => handleUpdatePreview(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor={`${item.id}-startDate`}>Start date</label>
-        <input
-          type='date'
-          id={`${item.id}-startDate`}
-          value={item.startDate}
-          onChange={(event) => handleUpdateStartDate(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor={`${item.id}-endDate`}>Start date</label>
-        <input
-          type='date'
-          id={`${item.id}-endDate`}
-          value={item.endDate}
-          onChange={(event) => handleUpdateEndDate(event.target.value)}
-        />
-      </div>
+      {fields.map(({ label, name, type, attribute }) => (
+        <div key={name}>
+          <label htmlFor={`${item.id}-${name}`}>{label}</label>
+          <input
+            type={type}
+            id={`${item.id}-${name}`}
+            value={item[attribute]}
+            onChange={(e) => saveItem(updateItem(attribute, e.target.value))}
+          />
+        </div>
+      ))}
       <div>
         <label htmlFor={`${item.id}-description`}>Project description</label>
         <ul>

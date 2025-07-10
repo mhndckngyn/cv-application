@@ -1,24 +1,13 @@
 import { ExperienceInfo } from '@/classes';
 import { generateId, updateFromPrototype } from '@/utils';
 import { useState } from 'react';
+import type { Field } from '../Field';
 
 export default function ExperienceItem(props: Props) {
   const { item, saveItem, deleteItem } = props;
   const [resInput, setResInput] = useState('');
 
   const updateItem = updateFromPrototype(item);
-
-  const handleUpdateTitle = (newTitle: string) => {
-    saveItem(updateItem('jobTitle', newTitle));
-  };
-
-  const handleUpdateCompany = (newCompany: string) => {
-    saveItem(updateItem('company', newCompany));
-  };
-
-  const handleUpdateStartDate = (newDate: string) => {
-    saveItem(updateItem('startDate', newDate));
-  };
 
   const handleUpdateEndDate = (newDate: string) => {
     saveItem(updateItem('endDate', newDate));
@@ -56,36 +45,45 @@ export default function ExperienceItem(props: Props) {
     saveItem(updateItem('responsibilities', deleted));
   };
 
+  const fields: Field<
+    Omit<ExperienceInfo, 'endDate' | 'toPresent' | 'responsibilities'> // needs extra handling
+  >[] = [
+    {
+      label: 'Job Title',
+      name: 'jobTitle',
+      type: 'text',
+      attribute: 'jobTitle',
+    },
+    {
+      label: 'Company Name',
+      name: 'company',
+      type: 'text',
+      attribute: 'company',
+    },
+    {
+      label: 'From',
+      name: 'startDate',
+      type: 'date',
+      attribute: 'startDate',
+    },
+  ];
+
   return (
     <li>
       <button onClick={() => deleteItem(item.id)}>Delete Experience</button>
-      <div>
-        <label htmlFor={`${item.id}-jobTitle`}>Job Title</label>
-        <input
-          id={`${item.id}-jobTitle`}
-          type='text'
-          value={item.jobTitle}
-          onChange={(event) => handleUpdateTitle(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor={`${item.id}-company`}>Company Name</label>
-        <input
-          id={`${item.id}-company`}
-          type='text'
-          value={item.company}
-          onChange={(event) => handleUpdateCompany(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor={`${item.id}-startDate`}>From</label>
-        <input
-          id={`${item.id}-startDate`}
-          type='date'
-          value={item.startDate}
-          onChange={(event) => handleUpdateStartDate(event.target.value)}
-        />
-      </div>
+      {/* Defined fields */}
+      {fields.map(({ label, name, type, attribute }) => (
+        <div key={name}>
+          <label htmlFor={`${item.id}-${name}`}>{label}</label>
+          <input
+            id={`${item.id}-${name}`}
+            type={type}
+            value={item[attribute]}
+            onChange={(e) => saveItem(updateItem(attribute, e.target.value))}
+          />
+        </div>
+      ))}
+      {/* End date with "To present" checkbox */}
       <div>
         <label htmlFor={`${item.id}-endDate`}>To</label>
         <input
@@ -104,6 +102,7 @@ export default function ExperienceItem(props: Props) {
           onChange={(event) => handleUpdateToPresent(event.target.checked)}
         />
       </div>
+      {/* List of responsibilities */}
       <div>
         <label htmlFor={`${item.id}-responsibilities`}>Responsibilities</label>
         <ul>

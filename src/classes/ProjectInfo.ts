@@ -19,15 +19,4 @@ export default class ProjectInfo {
     this.endDate = '';
     this.descriptions = [];
   }
-
-  static fromPrototype(prototype: ProjectInfo): ProjectInfo {
-    const created = new ProjectInfo();
-    created.id = prototype.id;
-    created.projectName = prototype.projectName;
-    created.preview = prototype.preview;
-    created.startDate = prototype.startDate;
-    created.endDate = prototype.endDate;
-    created.descriptions = prototype.descriptions; // Shallow cloning
-    return created;
-  }
 }

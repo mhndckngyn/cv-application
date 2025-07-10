@@ -1,6 +1,12 @@
+/* 
+  Takes an object (prototype)
+  Returns a function that
+    Takes a property and a value
+    Returns a shallow copy of the prototype, overriding the specified property
+*/
 export function updateFromPrototype<T>(prototype: T) {
   return function setProperty<K extends keyof T>(property: K, value: T[K]) {
-    const newObj = { ...prototype }; // shallow cloning
+    const newObj = { ...prototype };
     newObj[property] = value;
     return newObj;
   };

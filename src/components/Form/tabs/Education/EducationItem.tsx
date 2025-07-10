@@ -1,84 +1,63 @@
 import type { EducationInfo } from '@/classes';
 import { updateFromPrototype } from '@/utils';
+import type { Field } from '../Field';
 
 export default function EducationItem(props: Props) {
   const { item, saveItem, deleteItem } = props;
 
   const updateItem = updateFromPrototype(item);
-
-  const handleUpdateSchool = (newValue: string) => {
-    saveItem(updateItem('school', newValue));
-  };
-
-  const handleUpdateDegree = (newValue: string) => {
-    saveItem(updateItem('degree', newValue));
-  };
-
-  const handleUpdateCity = (newValue: string) => {
-    saveItem(updateItem('city', newValue));
-  };
-
-  const handleUpdateStartDate = (newValue: string) => {
-    saveItem(updateItem('startDate', newValue));
-  };
-
-  const handleUpdateEndDate = (newValue: string) => {
-    saveItem(updateItem('endDate', newValue));
-  };
-
+  
   const handleUpdateDescription = (newValue: string) => {
     saveItem(updateItem('description', newValue));
   };
 
+  const fields: Field<EducationInfo>[] = [
+    {
+      label: 'Place of Study',
+      name: 'school',
+      type: 'text',
+      attribute: 'school',
+    },
+    {
+      label: 'Degree',
+      name: 'degree',
+      type: 'text',
+      attribute: 'degree',
+    },
+    {
+      label: 'City',
+      name: 'city',
+      type: 'text',
+      attribute: 'city',
+    },
+    {
+      label: 'Start date',
+      name: 'startDate',
+      type: 'date',
+      attribute: 'startDate',
+    },
+    {
+      label: 'End date',
+      name: 'endDate',
+      type: 'date',
+      attribute: 'endDate',
+    },
+  ];
+
   return (
     <li>
       <button onClick={() => deleteItem(item.id)}>Delete education</button>
-
-      <div>
-        <label htmlFor={`${item.id}-school`}>Place of Study</label>
-        <input
-          id={`${item.id}-school`}
-          type='text'
-          value={item.school}
-          onChange={(event) => handleUpdateSchool(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor={`${item.id}-degree`}>Degree</label>
-        <input
-          id={`${item.id}-degree`}
-          type='text'
-          value={item.degree}
-          onChange={(event) => handleUpdateDegree(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor={`${item.id}-city`}>City</label>
-        <input
-          id={`${item.id}-city`}
-          type='text'
-          value={item.city}
-          onChange={(event) => handleUpdateCity(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor={`${item.id}-startDate`}>Start date</label>
-        <input
-          id={`${item.id}-startDate`}
-          type='date'
-          value={item.startDate}
-          onChange={(event) => handleUpdateStartDate(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor={`${item.id}-endDate`}>End date</label>
-        <input
-          id={`${item.id}-endDate`}
-          type='date'
-          value={item.endDate}
-          onChange={(event) => handleUpdateEndDate(event.target.value)}
-        />
-      </div>
+      {fields.map(({ label, name, type, attribute }) => (
+        <div key={name}>
+          <label htmlFor={`${item.id}-${name}`}>{label}</label>
+          <input
+            id={`${item.id}-${name}`}
+            type={type}
+            value={item[attribute]}
+            onChange={(e) => saveItem(updateItem(attribute, e.target.value))}
+          />
+        </div>
+      ))}
       <div>
         <label htmlFor={`${item.id}-note`}>Note</label>
         <textarea
