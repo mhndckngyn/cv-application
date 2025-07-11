@@ -24,18 +24,19 @@ import {
   Projects,
   Technical,
 } from './tabs';
+import { cn } from '@/helpers/cn';
 
-export default function Form() {
+export default function Form(props: Props) {
+  const {
+    profile,
+    technicalList,
+    projectList,
+    experienceList,
+    educationList,
+    certificationList,
+  } = props;
+
   const [tab, setTab] = useState<Tab>('PROFILE');
-
-  const [profile, setProfile] = useState<ProfileInfo>(new ProfileInfo());
-  const [technicalList, setTechnicalList] = useState<TechnicalInfo[]>([]);
-  const [projectList, setProjectList] = useState<ProjectInfo[]>([]);
-  const [experienceList, setExperienceList] = useState<ExperienceInfo[]>([]);
-  const [educationList, setEducationList] = useState<EducationInfo[]>([]);
-  const [certificationList, setCertificationList] = useState<
-    CertificationInfo[]
-  >([]);
 
   const tabs: TabButton[] = [
     {
@@ -71,7 +72,7 @@ export default function Form() {
   ];
 
   return (
-    <div className=''>
+    <div>
       {/* Tab container */}
       <div className='flex flex-wrap gap-3'>
         {tabs.map((t, idx) => (
@@ -81,38 +82,52 @@ export default function Form() {
             className={clsx('btn', tab === t.tab && 'btn-primary')}
           >
             <t.icon />
-            {t.label}
+            <span className={cn('hidden sm:inline', { inline: tab === t.tab })}>
+              {t.label}
+            </span>
           </button>
         ))}
       </div>
 
       {/* Content */}
       <div className='mt-8 border border-gray-300 rounded-lg'>
-        {tab === 'PROFILE' && (
-          <Profile profile={profile} saveProfile={setProfile} />
-        )}
-        {tab === 'TECHNICAL' && (
-          <Technical list={technicalList} setList={setTechnicalList} />
-        )}
-        {tab === 'PROJECTS' && (
-          <Projects list={projectList} setList={setProjectList} />
-        )}
-        {tab === 'EXPERIENCE' && (
-          <Experience list={experienceList} setList={setExperienceList} />
-        )}
-        {tab === 'EDUCATION' && (
-          <Education list={educationList} setList={setEducationList} />
-        )}
-        {tab === 'CERTIFICATIONS' && (
-          <Certifications
-            list={certificationList}
-            setList={setCertificationList}
-          />
-        )}
+        {tab === 'PROFILE' && <Profile {...profile} />}
+        {tab === 'TECHNICAL' && <Technical {...technicalList} />}
+        {tab === 'PROJECTS' && <Projects {...projectList} />}
+        {tab === 'EXPERIENCE' && <Experience {...experienceList} />}
+        {tab === 'EDUCATION' && <Education {...educationList} />}
+        {tab === 'CERTIFICATIONS' && <Certifications {...certificationList} />}
       </div>
     </div>
   );
 }
+
+type Props = {
+  profile: {
+    profile: ProfileInfo;
+    setProfile: (updated: ProfileInfo) => void;
+  };
+  technicalList: {
+    list: TechnicalInfo[];
+    setList: (updated: TechnicalInfo[]) => void;
+  };
+  projectList: {
+    list: ProjectInfo[];
+    setList: (updated: ProjectInfo[]) => void;
+  };
+  experienceList: {
+    list: ExperienceInfo[];
+    setList: (updated: ExperienceInfo[]) => void;
+  };
+  educationList: {
+    list: EducationInfo[];
+    setList: (updated: EducationInfo[]) => void;
+  };
+  certificationList: {
+    list: CertificationInfo[];
+    setList: (updated: CertificationInfo[]) => void;
+  };
+};
 
 type Tab =
   | 'PROFILE'

@@ -3,7 +3,7 @@ import { updateFromPrototype } from '@/helpers/utils';
 import type { Field } from '../Field';
 
 export default function Profile(props: Props) {
-  const { profile, saveProfile } = props;
+  const { profile, setProfile: saveProfile } = props;
 
   const updateProfile = updateFromPrototype(profile);
 
@@ -101,5 +101,5 @@ const INPUT_PREFIX = 'profile';
 
 type Props = {
   profile: ProfileInfo;
-  saveProfile: (updated: ProfileInfo) => void;
+  setProfile: (updated: ProfileInfo) => void;
 };
