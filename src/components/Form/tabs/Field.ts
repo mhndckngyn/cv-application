@@ -3,4 +3,5 @@ export type Field<T> = {
   name: string;
   type: React.HTMLInputTypeAttribute;
   attribute: keyof T;
+  placeholder?: string;
 };

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: cupcake --default, abyss --prefersdark;
-  /* themes: lemonade --default; */
+  themes: emerald --default;
+}
+
+@utility fieldset-legend {
+  @apply py-1;
 }

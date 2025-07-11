@@ -1,12 +1,23 @@
 import { TechnicalInfo } from '@/classes';
 import TechnicalItem from './TechnicalItem';
+import { useEffect, useState } from 'react';
+import { idPrefix, scrollToElement } from '@/helpers/scroll';
 
 export default function Technical(props: Props) {
   const { list, setList } = props;
+  const [scrollId, setScrollId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!scrollId) return;
+
+    scrollToElement(`${idPrefix.technical}-${scrollId}`);
+    setScrollId(null);
+  }, [scrollId]);
 
   const handleAddItem = () => {
     const newItem = new TechnicalInfo();
     setList([...list, newItem]);
+    setScrollId(newItem.id);
   };
 
   const handleDeleteItem = (itemId: string) => {
@@ -23,19 +34,26 @@ export default function Technical(props: Props) {
   };
 
   return (
-    <div>
+    <div className='mx-auto p-6'>
+      <div>
+        <button onClick={handleAddItem} className='btn btn-warning'>
+          Add Skill Group
+        </button>
+      </div>
+
       {/* List of Technical Skills */}
-      <ul>
-        {list.map((item) => (
-          <TechnicalItem
-            key={item.id}
-            item={item}
-            saveItem={handleUpdateItem}
-            deleteItem={handleDeleteItem}
-          />
-        ))}
-      </ul>
-      <button onClick={handleAddItem}>Add skill group</button>
+      {list.length > 0 && (
+        <ul className='mt-4 flex flex-col gap-4'>
+          {list.map((item) => (
+            <TechnicalItem
+              key={item.id}
+              item={item}
+              saveItem={handleUpdateItem}
+              deleteItem={handleDeleteItem}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

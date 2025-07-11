@@ -1,4 +1,4 @@
-import { generateId } from '@/utils';
+import { generateId } from '@/helpers/utils';
 
 export default class TechnicalInfo {
   id: string;

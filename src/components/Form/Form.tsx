@@ -6,6 +6,7 @@ import {
   ProjectInfo,
   TechnicalInfo,
 } from '@/classes';
+import clsx from 'clsx';
 import {
   BriefcaseBusiness,
   Code,
@@ -72,41 +73,43 @@ export default function Form() {
   return (
     <div className=''>
       {/* Tab container */}
-      <div className='flex flex-wrap gap-2'>
+      <div className='flex flex-wrap gap-3'>
         {tabs.map((t, idx) => (
-          <button key={idx} onClick={() => setTab(t.tab)}>
+          <button
+            key={idx}
+            onClick={() => setTab(t.tab)}
+            className={clsx('btn', tab === t.tab && 'btn-primary')}
+          >
+            <t.icon />
             {t.label}
           </button>
         ))}
       </div>
 
       {/* Content */}
-      {tab === 'PROFILE' && (
-        <Profile profile={profile} saveProfile={setProfile} />
-      )}
-
-      {tab === 'TECHNICAL' && (
-        <Technical list={technicalList} setList={setTechnicalList} />
-      )}
-
-      {tab === 'PROJECTS' && (
-        <Projects list={projectList} setList={setProjectList} />
-      )}
-
-      {tab === 'EXPERIENCE' && (
-        <Experience list={experienceList} setList={setExperienceList} />
-      )}
-
-      {tab === 'EDUCATION' && (
-        <Education list={educationList} setList={setEducationList} />
-      )}
-
-      {tab === 'CERTIFICATIONS' && (
-        <Certifications
-          list={certificationList}
-          setList={setCertificationList}
-        />
-      )}
+      <div className='mt-8 border border-gray-300 rounded-lg'>
+        {tab === 'PROFILE' && (
+          <Profile profile={profile} saveProfile={setProfile} />
+        )}
+        {tab === 'TECHNICAL' && (
+          <Technical list={technicalList} setList={setTechnicalList} />
+        )}
+        {tab === 'PROJECTS' && (
+          <Projects list={projectList} setList={setProjectList} />
+        )}
+        {tab === 'EXPERIENCE' && (
+          <Experience list={experienceList} setList={setExperienceList} />
+        )}
+        {tab === 'EDUCATION' && (
+          <Education list={educationList} setList={setEducationList} />
+        )}
+        {tab === 'CERTIFICATIONS' && (
+          <Certifications
+            list={certificationList}
+            setList={setCertificationList}
+          />
+        )}
+      </div>
     </div>
   );
 }

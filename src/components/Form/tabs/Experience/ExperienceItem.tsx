@@ -1,10 +1,14 @@
 import { ExperienceInfo } from '@/classes';
-import { generateId, updateFromPrototype } from '@/utils';
+import { generateId, updateFromPrototype } from '@/helpers/utils';
 import { useState } from 'react';
 import type { Field } from '../Field';
+import { ChevronDown, ChevronUp, Minus, Plus, X } from 'lucide-react';
+import { idPrefix } from '@/helpers/scroll';
+import { cn } from '@/helpers/cn';
 
 export default function ExperienceItem(props: Props) {
   const { item, saveItem, deleteItem } = props;
+  const [collapsed, setCollapse] = useState(false);
   const [resInput, setResInput] = useState('');
 
   const updateItem = updateFromPrototype(item);
@@ -68,65 +72,144 @@ export default function ExperienceItem(props: Props) {
     },
   ];
 
-  return (
-    <li>
-      <button onClick={() => deleteItem(item.id)}>Delete Experience</button>
-      {/* Defined fields */}
-      {fields.map(({ label, name, type, attribute }) => (
-        <div key={name}>
-          <label htmlFor={`${item.id}-${name}`}>{label}</label>
-          <input
-            id={`${item.id}-${name}`}
-            type={type}
-            value={item[attribute]}
-            onChange={(e) => saveItem(updateItem(attribute, e.target.value))}
-          />
-        </div>
-      ))}
-      {/* End date with "To present" checkbox */}
-      <div>
-        <label htmlFor={`${item.id}-endDate`}>To</label>
-        <input
-          id={`${item.id}-endDate`}
-          type='date'
-          disabled={item.toPresent === true}
-          value={item.endDate}
-          onChange={(event) => handleUpdateEndDate(event.target.value)}
-        />
+  const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleAddResponsibility();
+    }
+  };
 
-        <label htmlFor={`${item.id}-toPresent`}>To Present</label>
-        <input
-          id={`${item.id}-toPresent`}
-          type='checkbox'
-          checked={item.toPresent}
-          onChange={(event) => handleUpdateToPresent(event.target.checked)}
-        />
+  return (
+    <li id={`${idPrefix.experience}-${item.id}`}>
+      <div
+        className={cn(
+          'flex items-center gap-2 py-2 px-4 rounded-t-2xl rounded-b-2xl bg-base-200',
+          { 'rounded-b-none pb-0': !collapsed }
+        )}
+      >
+        <p className='flex-auto font-semibold line-clamp-1'>
+          {item.jobTitle
+            ? item.jobTitle
+            : item.company
+            ? item.company
+            : 'Untitled Experience'}
+        </p>
+        <button
+          onClick={() => setCollapse(!collapsed)}
+          className='btn btn-circle btn-ghost'
+        >
+          {collapsed ? <ChevronDown /> : <ChevronUp />}
+        </button>
+        <button
+          onClick={() => deleteItem(item.id)}
+          className='btn btn-circle btn-ghost'
+        >
+          <X />
+        </button>
       </div>
-      {/* List of responsibilities */}
-      <div>
-        <label htmlFor={`${item.id}-responsibilities`}>Responsibilities</label>
-        <ul>
-          {item.responsibilities.map((resp) => (
-            <li key={resp.id}>
+      <div
+        className={cn(
+          'bg-base-200 rounded-b-2xl h-0',
+          'scale-y-0 opacity-0 transition-transform duration origin-top',
+          {
+            'scale-y-100': !collapsed /* this is animated */,
+            'opacity-100 h-max p-4 pt-0':
+              !collapsed /* applied when not collapsed, but wont be animated */,
+          }
+        )}
+      >
+        {fields.map(({ label, name, type, attribute }) => (
+          <fieldset key={name} className='fieldset'>
+            <label htmlFor={`${item.id}-${name}`} className='fieldset-legend'>
+              {label}
+            </label>
+            <input
+              id={`${item.id}-${name}`}
+              type={type}
+              value={item[attribute]}
+              onChange={(e) => saveItem(updateItem(attribute, e.target.value))}
+              className='input w-full'
+            />
+          </fieldset>
+        ))}
+        {/* End date & "To present" checkbox */}
+        <div>
+          <fieldset className='fieldset'>
+            <label htmlFor={`${item.id}-endDate`} className='fieldset-legend'>
+              To
+            </label>
+            <input
+              id={`${item.id}-endDate`}
+              type='date'
+              disabled={item.toPresent === true}
+              value={item.endDate}
+              onChange={(event) => handleUpdateEndDate(event.target.value)}
+              className='input w-full disabled:bg-gray-100'
+            />
+          </fieldset>
+          <div className='mt-2 flex justify-end gap-2'>
+            <label
+              htmlFor={`${item.id}-toPresent`}
+              className='font-semibold text-sm'
+            >
+              To Present
+            </label>
+            <input
+              id={`${item.id}-toPresent`}
+              type='checkbox'
+              checked={item.toPresent}
+              onChange={(event) => handleUpdateToPresent(event.target.checked)}
+              className='checkbox checkbox-sm checkbox-neutral'
+            />
+          </div>
+        </div>
+        <div className='divider' />
+        <div>
+          <div className='flex gap-2 items-end'>
+            <fieldset className='flex-auto fieldset py-0'>
+              <label
+                htmlFor={`${item.id}-responsibilities`}
+                className='fieldset-legend'
+              >
+                Responsibilities
+              </label>
               <input
-                type='text'
-                value={resp.responsibility}
-                onChange={(event) =>
-                  handleUpdateResponsibility(resp.id, event.target.value)
-                }
+                id={`${item.id}-responsibilities`}
+                value={resInput}
+                onChange={(event) => setResInput(event.target.value)}
+                onKeyDown={handleEnter}
+                className='input w-full'
               />
-              <button onClick={() => handleDeleteResponsibility(resp.id)}>
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-        <input
-          id={`${item.id}-responsibilities`}
-          value={resInput}
-          onChange={(event) => setResInput(event.target.value)}
-        />
-        <button onClick={handleAddResponsibility}>Add responsibility</button>
+            </fieldset>
+            <button
+              onClick={handleAddResponsibility}
+              className='btn btn-circle btn-info'
+            >
+              <Plus />
+            </button>
+          </div>
+          {item.responsibilities.length > 0 && (
+            <ul className='mt-4 flex flex-col gap-2'>
+              {item.responsibilities.map((resp) => (
+                <li key={resp.id} className='flex gap-2'>
+                  <input
+                    type='text'
+                    value={resp.responsibility}
+                    onChange={(event) =>
+                      handleUpdateResponsibility(resp.id, event.target.value)
+                    }
+                    className='flex-auto input'
+                  />
+                  <button
+                    onClick={() => handleDeleteResponsibility(resp.id)}
+                    className='btn btn-circle btn-ghost btn-error'
+                  >
+                    <Minus />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </li>
   );
