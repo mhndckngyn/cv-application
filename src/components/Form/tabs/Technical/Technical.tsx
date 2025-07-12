@@ -1,7 +1,7 @@
 import { TechnicalInfo } from '@/classes';
 import TechnicalItem from './TechnicalItem';
 import { useEffect, useState } from 'react';
-import { idPrefix, scrollToElement } from '@/helpers/scroll';
+import { idPrefix, scrollToElement } from '@/components/Form/scroll';
 
 export default function Technical(props: Props) {
   const { list, setList } = props;

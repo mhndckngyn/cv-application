@@ -1,0 +1,36 @@
+import type { CertificationInfo } from '@/classes';
+import {
+  convertToMonthString as getMonthString
+} from '@/helpers/utils';
+import Divider from './Divider';
+
+export default function Certifications(props: Props) {
+  const { list } = props;
+
+  if (list.length === 0) {
+    return null;
+  }
+
+  return (
+    <div>
+      <p className='font-bold text-xl'>Certifications</p>
+      <Divider />
+
+      <ul className='flex flex-col gap-1 pl-3 list-disc'>
+        {list.map((item, index) => {
+          if (!item.name) return null;
+          return (
+            <li key={index}>
+              <span className='font-semibold'>{item.name}</span>
+              {item.date && ` - ${getMonthString(item.date)}`}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+type Props = {
+  list: CertificationInfo[];
+};

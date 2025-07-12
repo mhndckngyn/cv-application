@@ -1,7 +1,7 @@
 import { EducationInfo } from '@/classes';
 import EducationItem from './EducationItem';
 import { useEffect, useState } from 'react';
-import { idPrefix, scrollToElement } from '@/helpers/scroll';
+import { idPrefix, scrollToElement } from '@/components/Form/scroll';
 
 export default function Education(props: Props) {
   const { list, setList } = props;

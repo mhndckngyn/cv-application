@@ -1,5 +1,5 @@
 import { ProjectInfo } from '@/classes';
-import { idPrefix, scrollToElement } from '@/helpers/scroll';
+import { idPrefix, scrollToElement } from '@/components/Form/scroll';
 import { useEffect, useState } from 'react';
 import ProjectItem from './ProjectItem';
 

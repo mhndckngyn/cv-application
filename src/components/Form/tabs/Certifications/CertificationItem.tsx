@@ -2,7 +2,7 @@ import type { CertificationInfo } from '@/classes';
 import { updateFromPrototype } from '@/helpers/utils';
 import type { Field } from '../Field';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
-import { idPrefix } from '@/helpers/scroll';
+import { idPrefix } from '@/components/Form/scroll';
 import { cn } from '@/helpers/cn';
 import { useState } from 'react';
 

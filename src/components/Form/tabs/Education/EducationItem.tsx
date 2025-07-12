@@ -2,7 +2,7 @@ import type { EducationInfo } from '@/classes';
 import { updateFromPrototype } from '@/helpers/utils';
 import type { Field } from '../Field';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
-import { idPrefix } from '@/helpers/scroll';
+import { idPrefix } from '@/components/Form/scroll';
 import { useState } from 'react';
 import { cn } from '@/helpers/cn';
 
@@ -30,7 +30,7 @@ export default function EducationItem(props: Props) {
       attribute: 'degree',
     },
     {
-      label: 'City',
+      label: 'Location',
       name: 'city',
       type: 'text',
       attribute: 'city',
@@ -55,8 +55,7 @@ export default function EducationItem(props: Props) {
         className={cn(
           'flex items-center gap-2 py-2 px-4 rounded-t-2xl rounded-b-2xl bg-base-200',
           { 'rounded-b-none pb-0': !collapsed }
-        )}
-      >
+        )}>
         <p className='flex-auto font-semibold line-clamp-1'>
           {item.school ? item.school : '(No school name)'}
         </p>

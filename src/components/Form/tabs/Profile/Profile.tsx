@@ -23,6 +23,13 @@ export default function Profile(props: Props) {
       placeholder: 'Heimerdinger',
     },
     {
+      label: 'Address',
+      name: 'location',
+      type: 'text',
+      attribute: 'location',
+      placeholder: 'Piltover, Runeterra',
+    },
+    {
       label: 'Email',
       name: 'email',
       type: 'email',
@@ -35,13 +42,6 @@ export default function Profile(props: Props) {
       type: 'text',
       attribute: 'phone',
       placeholder: '+21 028 888 368',
-    },
-    {
-      label: 'Location',
-      name: 'location',
-      type: 'text',
-      attribute: 'location',
-      placeholder: 'Piltover, Runeterra',
     },
     {
       label: 'LinkedIn Profile',

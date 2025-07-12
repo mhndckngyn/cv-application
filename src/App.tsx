@@ -66,12 +66,12 @@ export default function App() {
   };
 
   return (
-    <div className='p-4 flex flex-col md:flex-row gap-4'>
+    <div className='flex flex-col md:flex-row gap-4 bg-gray-100'>
       {/* wrapping component in divs to edit flex more easily */}
-      <div className='flex-4/10'>
+      <div className='flex-4/10 bg-white p-4 shadow-lg'>
         <Form {...formProps} />
       </div>
-      <div className='flex-6/10'>
+      <div className='flex-6/10 p-6'>
         <Preview {...previewProps} />
       </div>
     </div>

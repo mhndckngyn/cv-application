@@ -1,6 +1,11 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import 'tailwindcss';
 @plugin "daisyui" {
   themes: emerald --default;
+}
+
+@theme {
+  --font-arial: 'Arial', sans-serif;
 }
 
 @utility fieldset-legend {

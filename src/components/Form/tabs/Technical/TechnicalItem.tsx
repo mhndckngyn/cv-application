@@ -1,6 +1,6 @@
 import { TechnicalInfo } from '@/classes';
 import { cn } from '@/helpers/cn';
-import { idPrefix } from '@/helpers/scroll';
+import { idPrefix } from '@/components/Form/scroll';
 import { generateId, updateFromPrototype } from '@/helpers/utils';
 import { ChevronDown, ChevronUp, Minus, Plus, X } from 'lucide-react';
 import React, { useState } from 'react';

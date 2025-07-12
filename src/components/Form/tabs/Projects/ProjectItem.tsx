@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { Field } from '../Field';
 import { ChevronDown, ChevronUp, Minus, Plus, X } from 'lucide-react';
 import { cn } from '@/helpers/cn';
-import { idPrefix } from '@/helpers/scroll';
+import { idPrefix } from '@/components/Form/scroll';
 
 export default function ProjectItem(props: Props) {
   const { item, saveItem, deleteItem } = props;

@@ -3,7 +3,7 @@ import { generateId, updateFromPrototype } from '@/helpers/utils';
 import { useState } from 'react';
 import type { Field } from '../Field';
 import { ChevronDown, ChevronUp, Minus, Plus, X } from 'lucide-react';
-import { idPrefix } from '@/helpers/scroll';
+import { idPrefix } from '@/components/Form/scroll';
 import { cn } from '@/helpers/cn';
 
 export default function ExperienceItem(props: Props) {
