@@ -12,4 +12,16 @@ export default class CertificationInfo {
     this.issuer = '';
     this.date = '';
   }
+
+  static fromSampleData(
+    name: string,
+    issuer: string,
+    date: string
+  ): CertificationInfo {
+    const instance = new CertificationInfo();
+    instance.name = name || '';
+    instance.issuer = issuer || '';
+    instance.date = date || '';
+    return instance;
+  }
 }

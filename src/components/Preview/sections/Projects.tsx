@@ -14,7 +14,7 @@ export default function Projects(props: Props) {
       <p className='font-bold text-xl'>Projects</p>
       <Divider />
 
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-4 print:gap-2'>
         {list.map((item, idx) => (
           <div>
             <div className='flex justify-between'>
@@ -38,7 +38,7 @@ export default function Projects(props: Props) {
               </p>
             </div>
             {item.descriptions.length > 0 && (
-              <ul className='mt-2 flex flex-col gap-1 pl-5 list-disc'>
+              <ul className='mt-2 flex flex-col gap-1 pl-5 list-disc print:mt-1'>
                 {item.descriptions.map((i) => (
                   <li key={i.id}>{i.description}</li>
                 ))}

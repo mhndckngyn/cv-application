@@ -14,7 +14,7 @@ export default function Education(props: Props) {
       <p className='font-bold text-xl'>Education</p>
       <Divider />
 
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-4 print:gap-2'>
         {list.map((item) => (
           <div>
             <div className='flex justify-between'>
@@ -26,7 +26,7 @@ export default function Education(props: Props) {
               <p>{convertToMonthString(item.endDate)}</p>
             </div>
             {item.description && (
-              <p className='whitespace-pre-line mt-2'>
+              <p className='whitespace-pre-line mt-2 print:mt-1'>
                 {item.description.trim()}
               </p>
             )}

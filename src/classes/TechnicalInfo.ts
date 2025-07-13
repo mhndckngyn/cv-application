@@ -13,4 +13,14 @@ export default class TechnicalInfo {
     this.groupName = '';
     this.skills = [];
   }
+
+  static fromSampleData(groupName: string, skills: string[]): TechnicalInfo {
+    const instance = new TechnicalInfo();
+    instance.groupName = groupName || '';
+    instance.skills = skills.map((skill) => ({
+      id: generateId(),
+      skill: skill || '',
+    }));
+    return instance;
+  }
 }

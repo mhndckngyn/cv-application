@@ -14,7 +14,7 @@ export default function Certifications(props: Props) {
       <p className='font-bold text-xl'>Certifications</p>
       <Divider />
 
-      <ul className='flex flex-col gap-1 pl-3 list-disc'>
+      <ul className='flex flex-col gap-1 pl-5 list-disc'>
         {list.map((item, index) => (
           <li key={index}>
             <span className='font-semibold'>
