@@ -19,13 +19,13 @@ export default function Preview(props: Props) {
   } = props;
 
   return (
-    <div className='mx-auto w-[80ch] flex flex-col gap-6 shadow-xl p-8 bg-white font-arial'>
+    <div className='h-full overflow-y-auto mx-auto lg:max-w-[80ch] flex flex-col gap-6 shadow-xl p-8 bg-white font-arial'>
       <Profile profile={profile} />
       <Education list={educationList} />
       <Technical list={technicalList} />
       <Projects list={projectList} />
       <Experience list={experienceList} />
-      <Certifications list={certificationList} /> 
+      <Certifications list={certificationList} />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Form from './components/Form';
 import {
   CertificationInfo,
   EducationInfo,
@@ -8,6 +7,8 @@ import {
   ProjectInfo,
   TechnicalInfo,
 } from './classes';
+import Form from './components/Form';
+import Menu from './components/Menu';
 import Preview from './components/Preview';
 
 export default function App() {
@@ -20,7 +21,7 @@ export default function App() {
     certificationList: [],
   });
 
-  function setList<T extends keyof AppData>(attribute: T, newList: AppData[T]) {
+  function setAttr<T extends keyof AppData>(attribute: T, newList: AppData[T]) {
     const updated = { ...data, [attribute]: newList };
     setData(updated);
   }
@@ -28,31 +29,28 @@ export default function App() {
   const formProps = {
     profile: {
       profile: data.profile,
-      setProfile: (profile: ProfileInfo) => setList('profile', profile),
+      setProfile: (profile: ProfileInfo) => setAttr('profile', profile),
     },
     technicalList: {
       list: data.technicalList,
-      setList: (list: TechnicalInfo[]) =>
-        setList('technicalList', list),
+      setList: (list: TechnicalInfo[]) => setAttr('technicalList', list),
     },
     projectList: {
       list: data.projectList,
-      setList: (list: ProjectInfo[]) => setList('projectList', list),
+      setList: (list: ProjectInfo[]) => setAttr('projectList', list),
     },
     experienceList: {
       list: data.experienceList,
-      setList: (list: ExperienceInfo[]) =>
-        setList('experienceList', list),
+      setList: (list: ExperienceInfo[]) => setAttr('experienceList', list),
     },
     educationList: {
       list: data.educationList,
-      setList: (list: EducationInfo[]) =>
-        setList('educationList', list),
+      setList: (list: EducationInfo[]) => setAttr('educationList', list),
     },
     certificationList: {
       list: data.certificationList,
       setList: (list: CertificationInfo[]) =>
-        setList('certificationList', list),
+        setAttr('certificationList', list),
     },
   };
 
@@ -66,13 +64,15 @@ export default function App() {
   };
 
   return (
-    <div className='flex flex-col md:flex-row gap-4 bg-gray-100'>
-      {/* wrapping component in divs to edit flex more easily */}
-      <div className='flex-4/10 bg-white p-4 shadow-lg'>
-        <Form {...formProps} />
-      </div>
-      <div className='flex-6/10 p-6'>
-        <Preview {...previewProps} />
+    <div className='bg-gray-100'>
+      <div className='max-w-[1500px] mx-auto flex flex-col gap-6 px-2 pt-4 pb-6 md:px-6 h-[100vh] lg:flex-row lg:gap-2 lg:px-6 lg:pr-0'>
+        <div className='grow flex flex-col gap-4 lg:flex-4/10'>
+          <Menu />
+          <Form {...formProps} />
+        </div>
+        <div className='lg:flex-6/10'>
+          <Preview {...previewProps} />
+        </div>
       </div>
     </div>
   );

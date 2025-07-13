@@ -72,17 +72,17 @@ export default function Form(props: Props) {
   ];
 
   return (
-    <div>
+    <div className='flex-grow min-h-0 flex flex-col gap-4 rounded-2xl bg-white p-4 shadow-xl'>
       {/* Tab container */}
       <div className='flex flex-wrap gap-3'>
         {tabs.map((t, idx) => (
           <button
             key={idx}
             onClick={() => setTab(t.tab)}
-            className={clsx('btn', tab === t.tab && 'btn-primary')}
+            className={clsx('btn', tab === t.tab && 'btn-neutral')}
           >
             <t.icon />
-            <span className={cn('hidden sm:inline', { inline: tab === t.tab })}>
+            <span className={cn('hidden', { inline: tab === t.tab })}>
               {t.label}
             </span>
           </button>
@@ -90,7 +90,7 @@ export default function Form(props: Props) {
       </div>
 
       {/* Content */}
-      <div className='mt-8 border border-gray-300 rounded-lg'>
+      <div className='overflow-y-auto border border-gray-300 rounded-lg'>
         {tab === 'PROFILE' && <Profile {...profile} />}
         {tab === 'TECHNICAL' && <Technical {...technicalList} />}
         {tab === 'PROJECTS' && <Projects {...projectList} />}
