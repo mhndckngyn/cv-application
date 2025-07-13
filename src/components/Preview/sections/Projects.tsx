@@ -15,11 +15,11 @@ export default function Projects(props: Props) {
       <Divider />
 
       <div className='flex flex-col gap-4'>
-        {list.map((item) => (
+        {list.map((item, idx) => (
           <div>
             <div className='flex justify-between'>
               <p className='font-semibold'>
-                {item.projectName}
+                {item.projectName ? item.projectName : `Untitled Project ${idx + 1}`}
                 {item.preview && (
                   <>
                     {' - '}

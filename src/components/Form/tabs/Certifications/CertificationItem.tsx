@@ -42,7 +42,7 @@ export default function CertificationItem(props: Props) {
         )}
       >
         <p className='flex-auto font-semibold line-clamp-1'>
-          {item.name !== '' ? item.name : 'Unnamed certificate'}
+          {item.name !== '' ? item.name : 'Unnamed certification'}
         </p>
         <button
           onClick={() => setCollapse(!collapsed)}

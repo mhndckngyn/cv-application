@@ -18,16 +18,18 @@ export default function Education(props: Props) {
         {list.map((item) => (
           <div>
             <div className='flex justify-between'>
-              <p className='font-semibold'>{item.school}</p>
+              <p className='font-semibold'>{item.school ? item.school : "(No school name)"}</p>
               <p className='italic'>{item.city}</p>
             </div>
             <div className='flex justify-between italic'>
               <p>{item.degree}</p>
               <p>{convertToMonthString(item.endDate)}</p>
             </div>
-            <p className='whitespace-pre-line mt-2'>
-              {item.description.trim()}
-            </p>
+            {item.description && (
+              <p className='whitespace-pre-line mt-2'>
+                {item.description.trim()}
+              </p>
+            )}
           </div>
         ))}
       </div>

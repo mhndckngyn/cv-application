@@ -4,6 +4,8 @@ import { makeString } from '@/helpers/utils';
 export default function Profile(props: Props) {
   const { profile } = props;
 
+  const name = makeString([profile.firstName, profile.lastName], ' ');
+
   const basicInfo = makeString(
     [profile.location, profile.email, profile.phone],
     ' • '
@@ -14,15 +16,13 @@ export default function Profile(props: Props) {
     ' • '
   );
 
-  if (basicInfo === '' && internetProfile === '') {
+  if (name === '' && basicInfo === '' && internetProfile === '') {
     return null;
   }
 
   return (
     <div className='text-center'>
-      <p className='font-bold text-2xl mb-1'>
-        {profile.firstName} {profile.lastName}
-      </p>
+      <p className='font-bold text-2xl mb-1'>{name}</p>
       <p>{basicInfo}</p>
       <p>{internetProfile}</p>
     </div>

@@ -71,9 +71,11 @@ export function getRangeString(start: string, end: string) {
   const [fromMonth, fromYear] = from.split(' ');
   const [toMonth, toYear] = to.split(' ');
 
-  return fromYear === toYear
+  return fromYear !== toYear
+    ? `${from} – ${to}`
+    : fromMonth !== toMonth
     ? `${fromMonth} – ${toMonth} ${fromYear}`
-    : `${from} – ${to}`;
+    : from;
 }
 
 export function getYear(date: string) {

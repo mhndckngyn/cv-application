@@ -15,10 +15,12 @@ export default function Experience(props: Props) {
       <Divider />
 
       <div className='flex flex-col gap-4'>
-        {list.map((item) => (
+        {list.map((item, idx) => (
           <div>
             <div className='flex justify-between'>
-              <p className='font-semibold'>{item.jobTitle}</p>
+              <p className='font-semibold'>
+                {item.jobTitle ? item.jobTitle : `Untitled Experience ${idx + 1}`}
+              </p>
               <p className='italic'>
                 {item.toPresent
                   ? `${convertToMonthString(item.startDate)} – Present`

@@ -1,7 +1,5 @@
 import type { CertificationInfo } from '@/classes';
-import {
-  convertToMonthString as getMonthString
-} from '@/helpers/utils';
+import { convertToMonthString } from '@/helpers/utils';
 import Divider from './Divider';
 
 export default function Certifications(props: Props) {
@@ -17,15 +15,14 @@ export default function Certifications(props: Props) {
       <Divider />
 
       <ul className='flex flex-col gap-1 pl-3 list-disc'>
-        {list.map((item, index) => {
-          if (!item.name) return null;
-          return (
-            <li key={index}>
-              <span className='font-semibold'>{item.name}</span>
-              {item.date && ` - ${getMonthString(item.date)}`}
-            </li>
-          );
-        })}
+        {list.map((item, index) => (
+          <li key={index}>
+            <span className='font-semibold'>
+              {item.name ? item.name : 'Unnamed certification'}
+            </span>
+            {item.date && ` - ${convertToMonthString(item.date)}`}
+          </li>
+        ))}
       </ul>
     </div>
   );
